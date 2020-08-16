@@ -1,4 +1,5 @@
 import random
+import string
 from phrasehunter.phrase import Phrase
 
 class Game:
@@ -18,7 +19,10 @@ class Game:
         info = self.get_random_phrase()
         while self.missed < 5 and info.check_complete():
             info.diplay()
-            self.missed += (info.check_letter(self.get_geuss().lower()))
+            true_value = (info.check_letter(self.get_geuss().lower()))
+            self.missed += true_value
+            if true_value == 1:
+                print('\n\nYou have {} out of 5 lives remaining!\n\n'.format(5 - self.missed))
             info.check_complete()
         self.game_over()
 
@@ -31,7 +35,7 @@ class Game:
         print(space + line + '\n   {}Welcome to Phrase Hunter\n'.format(space) + space + line)
 
     def get_geuss(self):
-        alphabet = "abcdefghijklmnopqrstuvwxyz"
+        alphabet = string.ascii_lowercase
         while True:
             ans = input('\n\nGuess a letter: ')
             if len(ans) == 1 and ans.lower() in alphabet:
